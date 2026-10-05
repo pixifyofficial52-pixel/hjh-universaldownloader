@@ -1,0 +1,12 @@
+{
+  "name": "hjh-downloader-api",
+  "version": "1.0.0",
+  "description": "HJH Custom API Proxy for MultiDownAPI",
+  "main": "api/index.js",
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "node-fetch": "^2.7.0"
+  }
+}
