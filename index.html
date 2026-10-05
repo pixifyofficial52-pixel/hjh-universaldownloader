@@ -182,15 +182,66 @@ body{
     box-shadow:var(--shadow-lg);
     border:1px solid rgba(255,255,255,.5);
     display:none;
-    flex-direction:column;align-items:center;justify-content:center;gap:16px;
+    flex-direction:column;align-items:center;justify-content:center;gap:20px;
     text-align:center;
 }
 .loading-card.show{display:flex;animation:fadeInUp .4s ease forwards}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.processing-gif{
-    width:130px;border-radius:12px;
-    mix-blend-mode:multiply;
+
+/* Modern SVG Loader */
+.loader-wrap{
+    width:120px;
+    height:120px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
 }
+.loader-wrap::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    background:radial-gradient(circle,rgba(37,99,235,.15),transparent 70%);
+    animation:pulseRing 2s ease-in-out infinite;
+}
+@keyframes pulseRing{
+    0%,100%{transform:scale(1);opacity:.6}
+    50%{transform:scale(1.15);opacity:1}
+}
+.loader-svg{
+    width:100%;
+    height:100%;
+    animation:spin 3s linear infinite;
+    position:relative;
+    z-index:1;
+}
+.loader-svg circle{
+    fill:none;
+    stroke-width:6;
+    stroke-linecap:round;
+}
+.loader-svg .track{
+    stroke:var(--gray-200);
+}
+.loader-svg .arc-1{
+    stroke:var(--primary);
+    stroke-dasharray:80 220;
+    animation:arcSpin 1.5s linear infinite;
+}
+.loader-svg .arc-2{
+    stroke:var(--secondary);
+    stroke-dasharray:60 240;
+    animation:arcSpin 2s linear infinite reverse;
+}
+@keyframes arcSpin{
+    0%{stroke-dashoffset:0}
+    100%{stroke-dashoffset:-300}
+}
+@keyframes spin{
+    to{transform:rotate(360deg)}
+}
+
 .processing-text{
     font-size:1.05rem;font-weight:700;
     background:linear-gradient(135deg,var(--primary),var(--secondary));
@@ -329,7 +380,6 @@ body{
 .toast.show{transform:translateX(-50%) translateY(0)}
 
 .spinner{animation:spin 1s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
 
 @media(max-width:480px){
     .whatsapp-popup{padding:25px 20px}
@@ -339,6 +389,7 @@ body{
     .whatsapp-float{bottom:20px;right:16px}
     .whatsapp-float-btn{width:52px;height:52px;font-size:26px}
     .platform-chip{width:44px;height:44px;font-size:1.3rem}
+    .loader-wrap{width:100px;height:100px}
 }
 </style>
 </head>
@@ -392,9 +443,15 @@ body{
         </button>
     </div>
 
-    <!-- Loading Card -->
+    <!-- Loading Card with Modern SVG Loader -->
     <div id="loadingCard" class="loading-card">
-        <img src="https://block.youtest.me/static/assets/img/ques_images/297/header.webp" alt="Processing" class="processing-gif">
+        <div class="loader-wrap">
+            <svg class="loader-svg" viewBox="0 0 100 100">
+                <circle class="track" cx="50" cy="50" r="42"></circle>
+                <circle class="arc-1" cx="50" cy="50" r="42"></circle>
+                <circle class="arc-2" cx="50" cy="50" r="32"></circle>
+            </svg>
+        </div>
         <p class="processing-text">Processing The Media</p>
     </div>
 
